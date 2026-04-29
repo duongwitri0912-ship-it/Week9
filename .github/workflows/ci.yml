@@ -1,0 +1,45 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    name: Build on ${{ matrix.os }}
+
+    # === 1. ÁP DỤNG MATRIX STRATEGY TẠI ĐÂY ===
+    strategy:
+      # fail-fast: false giúp pipeline không bị hủy toàn bộ nếu chỉ có 1 HĐH bị lỗi.
+      # (Rất quan trọng cho yêu cầu tiếp theo của Bài 4)
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    # === 2. GÁN HỆ ĐIỀU HÀNH DỰA VÀO BIẾN MATRIX ===
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Lấy mã nguồn (Checkout)
+        uses: actions/checkout@v4
+
+      - name: Thiết lập Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven # Tăng tốc độ tải thư viện Maven cho các lần chạy sau
+
+      - name: Chạy Unit Tests và Đóng gói (Package)
+        run: mvn -B clean package --file pom.xml
+
+      - name: Tải lên tệp .jar (Artifact)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          # === 3. THÊM BIẾN MATRIX VÀO TÊN ARTIFACT ===
+          # Giúp phân biệt rõ ràng tệp .jar sinh ra từ Windows, Ubuntu hay MacOS
+          name: GradeClassifier-Build-Artifact-${{ matrix.os }}
+          path: target/*.jar

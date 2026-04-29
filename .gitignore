@@ -1,0 +1,47 @@
+# === 1. MAVEN BUILD ARTIFACTS ===
+# Đây là thư mục quan trọng nhất cần bỏ qua.
+# Nó chứa các file .class và file .jar được sinh ra sau khi chạy 'mvn package'.
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# === 2. LOG FILES ===
+# Vì bạn đã tích hợp SLF4J/Logback và có cấu hình ghi ra file,
+# ta cần bỏ qua thư mục logs để không làm rác repo.
+logs/
+*.log
+
+# === 3. IDE - INTELlIJ IDEA ===
+# Bỏ qua các file cấu hình riêng của IntelliJ (như file .iml bạn đang có).
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# === 4. IDE - VS CODE ===
+.vscode/
+*.code-workspace
+
+# === 5. IDE - ECLIPSE ===
+.settings/
+.project
+.classpath
+.factorypath
+
+# === 6. OS TEMPORARY FILES ===
+# Các file rác tự sinh bởi hệ điều hành
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
